@@ -9,8 +9,8 @@
     font-family: gilroy;
   }
   #bgv {
-    /* background-image: url("https://images.unsplash.com/photo-1610370989619-715dec06ba1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"); */
-    background-image: url("https://img.freepik.com/free-vector/abstact-hexagon-background-memphis-style_1017-31955.jpg?w=1380&t=st=1697099518~exp=1697100118~hmac=9cc2a9d00e00d7513f43c369fe1b6195e4332c1405a7dbae9b4164c273807270");
+   
+  background-image: url("../images/bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
