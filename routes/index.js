@@ -77,5 +77,23 @@ router.get("/time_tracking",isLoggedIn, function (req, res) {
 router.get("/todays_updates",isLoggedIn, function (req, res) {
   res.render("updates");
 });
+router.get("/addtask",isLoggedIn, function (req, res) {
+  res.render("addtask");
+});
+
+
+
+router.post("/addtask",isLoggedIn,async function(req,res,next){
+  try {
+    const tasks = new Tasks(req.body);
+    tasks.user= req.user._id ;
+    req.user.tasks.push(tasks._id);
+    await tasks.save();
+    await req.user.save();
+    res.redirect("/todays_task");
+  } catch (error) {
+    res.send(error);
+  }
+})
 
 module.exports = router;

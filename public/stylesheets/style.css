@@ -124,10 +124,9 @@ body {
 .lusdets h4 {
   color: #76caac;
 }
-.lusdets h4 a{
+.lusdets h4 a {
   text-decoration: none;
   color: inherit;
-
 }
 .lusdets span {
   color: #ffffff;
@@ -179,10 +178,10 @@ body {
   height: 80vh;
   /* background-color: yellow;   */
 }
-#mhead{
+#mhead {
   height: 6vh;
   width: 100%;
-color: #ffffff;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,22 +193,58 @@ color: #ffffff;
   /* background-color: rgb(99, 99, 17); */
 }
 
-
 #chartdiv {
   width: 100%;
   height: 80%;
 }
-.attendets{
-display: flex;
-justify-content: space-around;
+.attendets {
+  display: flex;
+  justify-content: space-around;
 }
-.attendets h3{
+.attendets h3 {
   color: #ffffff;
-  
 }
-.present{
+.present {
   color: #ffffff;
   height: 4vh;
   width: 6vw;
   background: rgb(20, 168, 20);
+}
+
+#message {
+  display: none;
+}
+#mobile {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 480px) {
+  body {
+    background-color: #000;
+  }
+
+  #message {
+    color: white;
+    display: block;
+  }
+  #main {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  body {
+    background-color: #000;
+  }
+
+  #message {
+    color: white;
+    display: block;
+  }
+  #main {
+    display: none;
+  }
 }

@@ -1,93 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"
+      integrity="sha512-BdHyGtczsUoFcEma+MfXc71KJLv/cd+sUsUaYYf2mXpfG/PtBjNXsPo78+rxWjscxUYN2Qr2+DbeGGiJx81ifg=="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="stylesheets/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"
-    integrity="sha512-BdHyGtczsUoFcEma+MfXc71KJLv/cd+sUsUaYYf2mXpfG/PtBjNXsPo78+rxWjscxUYN2Qr2+DbeGGiJx81ifg=="
-    crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  </head>
 
-  <script src="https://www.amcharts.com/lib/4/core.js"></script>
-  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-</head>
-
-<body>
-  <div id="main">
-    <div class="headimg">
-      <img src="images/a.png" alt="" />
+  <body>
+    <div id="mobile">
+      <p id="message">Please use this on a desktop.</p>
     </div>
-    <div class="nav">
-      <div class="leftnav">
-        <div class="iam">Welcome to Web integratorz. We</div>
-        <div class="text"></div>
+    <div id="main">
+      <div class="headimg">
+        <img src="images/a.png" alt="" />
       </div>
-      <div class="rightnav">
-        <a href="/todays_task">
-          <div id="tasks">
-            <h4>Todays Tasks</h4>
-          </div>
-        </a>
-        <a href="/time_tracking">
-          <div id="time">
-            <h4>Time Tracking</h4>
-          </div>
-        </a>
-        <a href="/todays_updates">
-          <div id="update">
-            <h4>Today's Update</h4>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="userdets">
-      <div class="lusdets">
-        <div class="propic">
-          <i class="ri-user-line"></i>
+      <div class="nav">
+        <div class="leftnav">
+          <div class="iam">Welcome to Web integratorz. We</div>
+          <div class="text"></div>
         </div>
-        <div id="space"></div>
-        <h4><span>Hey,</span> <a href="/profile"> <%= user.name%> </a></h4>
+        <div class="rightnav">
+          <a href="/todays_task">
+            <div id="tasks">
+              <h4>Todays Tasks</h4>
+            </div>
+          </a>
+          <a href="/time_tracking">
+            <div id="time">
+              <h4>Time Tracking</h4>
+            </div>
+          </a>
+          <a href="/todays_updates">
+            <div id="update">
+              <h4>Today's Update</h4>
+            </div>
+          </a>
+        </div>
       </div>
-      <div class="musdets"></div>
-      <div class="rusdets">
-        <div class="logoff" id="hui">
-          <h4>LogOut</h4>
+
+      <div class="userdets">
+        <div class="lusdets">
+          <div class="propic">
+            <i class="ri-user-line"></i>
+          </div>
           <div id="space"></div>
-          <i class="ri-logout-box-r-line"></i>
+          <h4><span>Hey,</span> <a href="/profile"> <%= user.name%> </a></h4>
+        </div>
+        <div class="musdets"></div>
+        <div class="rusdets">
+          <div class="logoff" id="hui">
+            <h4>LogOut</h4>
+            <div id="space"></div>
+            <i class="ri-logout-box-r-line"></i>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="section">
-      <div class="lsec">
-        <div id="mhead">
-          <h1>Put your Attendence here.....</h1>
-        </div>
-        <br>
-        <div class="attendets">
-          <h3>Date</h3>
-          <h3>Present()%</h3>
+      <div class="section">
+        <div class="lsec">
+          <div id="mhead">
+            <h1>Put your Attendence here.....</h1>
+          </div>
+          <br />
+          <div class="attendets">
+            <h3>Date</h3>
+            <h3>Present()%</h3>
+          </div>
+          <br />
+
+          <div class="attendets">
+            <h3>10/10/23</h3>
+            <a href="/time_tracking"
+              ><button class="present">Present</button></a
+            >
+          </div>
         </div>
         <br />
 
-        <div class="attendets">
-          <h3>10/10/23</h3>
-          <a href="/time_tracking"><button class="present">Present</button></a>
+        <div class="rsec">
+          <div id="chartdiv"></div>
         </div>
       </div>
-      <br />
-
-      <div class="rsec">
-        <div id="chartdiv"></div>
-      </div>
     </div>
-  </div>
-</body>
-<script src="javascripts/index.js"></script>
-
+  </body>
+  <script src="javascripts/index.js"></script>
 </html>
