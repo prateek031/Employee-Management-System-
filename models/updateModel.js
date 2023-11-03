@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const tasksModel = new mongoose.Schema(
+const updatesModel = new mongoose.Schema(
     {
         title:String,
-        description: String,
+        desc: String,
         user:{type: mongoose.Schema.Types.ObjectId, ref:"user"},
     },
     {
@@ -11,4 +11,4 @@ const tasksModel = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("tasks",tasksModel);
+module.exports = mongoose.model("updates",updatesModel);

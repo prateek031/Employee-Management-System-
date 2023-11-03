@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    height: 100%;
+    width: 100%;
+    font-family: gilroy;
+    
+  }
+  #bgv {
+    position: relative;
+    background-image: url("../images/adbg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+  
+  #main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+  }
+  #main h2 {
+    color: #FD2B2B;
+    font-weight: 300;
+    font-size: 2.5em;
+    margin-bottom: 2vh;
+  }
+
+  
+  form {
+    background: #0f0f27a9;
+    width: 100%;
+    padding: 4vw 6vw;
+    border: 2px solid #8D9098;
+    border-radius: 4px;
+    box-shadow: 0 0 8px 0 rgba(43, 45, 48, 0.12);
+    transition: all 0.3s ease;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2dvw;
+  }
+  
+  .row label {
+    font-size: 1em;
+    color: #8086a9;
+    margin-bottom: 1em;
+  }
+  
+  .row input {
+    height: 5vh;
+    width: 23vw;
+    padding-left: 0.5vw;
+    border: 1px solid #d6d8e6;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: all 0.2s ease-out;
+    border-radius: 4px;
+    color: #FD2B2B;
+    
+  }
+  /* .row select {
+    height: 5vh;
+    width: 23vw;
+    padding-left: 0.5vw;
+    border: 1px solid #d6d8e6;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: all 0.2s ease-out;
+    border-radius: 10px;
+    color: #5e5d5d;
+    
+  } */
+
+  /* Existing code */
+.row select {
+  height: 5vh;
+  width: 23vw;
+  padding-left: 0.5vw;
+  border: 1px solid #d6d8e6;
+  border-radius: 4px; /* Removed duplicate border-radius property */
+  font-size: 1em;
+  transition: all 0.2s ease-out;
+  /* Removed duplicate border-radius property */
+  color: #5e5d5d;
+}
+
+/* Additional CSS to improve select styling */
+/* Reset default select styles */
+select {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
+
+/* Style the dropdown arrow icon */
+select::-ms-expand {
+display: none; /* Remove default arrow in IE */
+}
+
+/* Add hover effects */
+.row select:hover {
+border-color: #a7a9c6;
+}
+
+/* Add focus styles */
+.row select:focus {
+outline: none;
+border-color: #4d4dff; /* Change to your preferred focus color */
+box-shadow: 0 0 0 1px #4d4dff; /* Change to your preferred focus color */
+}
+  
+  
+  .row input:focus {
+    outline: none;
+    box-shadow: inset 2px 2px 5px 0 rgba(178, 182, 186, 0.886);
+  }
+  
+  .row input::placeholder {
+    color: #c8cddf;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    background: #e94102;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-top: 1.5vh;
+    transition: background 0.2s ease-out;
+  }
+  
+  button:hover {
+    background: #85311a;
+  }
+  
+  @media (max-width: 458px) {
+    body {
+      margin: 0 18px;
+    }
+  
+    form {
+      background: #f9faff;
+      border: none;
+      box-shadow: none;
+      padding: 20px 0;
+    }
+  }
+  #message {
+    display: none;
+  }
+  #mobile {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+  

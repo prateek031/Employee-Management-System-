@@ -1,11 +1,12 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/userModel")
-const Tasks = require("../models/tasksModel");
+const Tasks = require("../models/taskModel");
+const Updates = require("../models/updateModel")
 // -----------Passport----------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use('local', new LocalStrategy(User.authenticate()));
 // ----------------------------------------------
 
 // -------------------register------------------------
@@ -62,6 +63,7 @@ router.get("/logout", function (req, res, next) {
 router.get("/dashboard",isLoggedIn, function (req, res) {
   res.render("dashboard",{user: req.user});
 });
+
 router.get("/profile",isLoggedIn, function (req, res) {
   res.render("profile",{user: req.user});
 });
@@ -74,25 +76,29 @@ router.get("/time_tracking",isLoggedIn, function (req, res) {
   res.render("time");
 });
 
-router.get("/todays_updates",isLoggedIn, function (req, res) {
-  res.render("updates");
-});
-router.get("/addtask",isLoggedIn, function (req, res) {
-  res.render("addtask");
+router.get("/todays_updates",isLoggedIn,async function (req, res) {
+  const updates = await Updates.find({ user: req.user._id });
+  res.render("todayupdate", { updates: updates, user: req.user });
 });
 
+router.get("/addupdate",isLoggedIn, function (req, res) {
+  res.render("addupdate");
+});
 
-
-router.post("/addtask",isLoggedIn,async function(req,res,next){
+router.post("/addupdate",isLoggedIn,async function(req,res,next){
   try {
-    const tasks = new Tasks(req.body);
-    tasks.user= req.user._id ;
-    req.user.tasks.push(tasks._id);
-    await tasks.save();
-    await req.user.save();
-    res.redirect("/todays_task");
+    const updates = new Updates(req.body);
+    updates.user= req.user._id ;
+    req.user.updates.push(updates._id);
+    await updates.save();
+    // await req.user.save();
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $push: { updates: updates._id } }
+    );
+    res.redirect("/todays_updates?success=true");
   } catch (error) {
-    res.send(error);
+    res.send("This is data"+error);
   }
 })
 

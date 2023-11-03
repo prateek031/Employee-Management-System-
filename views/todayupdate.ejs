@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Today's Tasks</title>
+    <link rel="stylesheet" href="stylesheets/tasks.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="page">
+        <div class="nav">
+          <h1>Tasks to do today..</h1>
+        </div>
+
+        <div class="assigner">
+          <div class="asleft">
+            <h2>Add/ Create a tasks to do</h2>
+          </div>
+          <div id="asspace"></div>
+          <div class="asright">
+            <!-- <a href="/addtask">
+                    <button><h1>+</h1></button></a> -->
+            <a href="/addupdate">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Add Task
+            </a>
+          </div>
+        </div>
+    <p>Welcome to <strong> <%= user.name %> </strong>Profile</p>
+    <div class="tslist">
+
+      <%   const today = new Date();
+      const currentDate = today.toISOString().slice(0, 10);
+      const filteredUpdates = updates.filter(update => {
+        const updateDate = new Date(update.createdAt).toISOString().slice(0, 10);
+        return updateDate === currentDate;
+      });    
+      filteredUpdates.sort((a, b) => b.createdAt - a.createdAt);
+      filteredUpdates.forEach(function(update){  %>   
+      <div id="task">
+          <%= update.date %>
+          <br>
+          <%= update.
+          createdAt.toLocaleDateString('en-GB') %>
+          <br>
+          <h2><%= update.title %> </h2>
+          <%= update.desc %>
+                    
+            <!-- <a href="/updatetodo/<%= update._id%>">✔</a>
+            <a href="/deletetodo/<%= update._id%>">❌</a> -->
+        </div>
+        <%})%>
+      </div>
+        </div>
+      </div>
+      <div class="bg-animation">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+        <div id="stars4"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const success = urlParams.get('success');
+  if (success) {
+    alert('Your update is recorded succefully!');
+  }
+</script>
+</html>

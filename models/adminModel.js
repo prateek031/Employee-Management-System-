@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 
-const userModel = new mongoose.Schema({
+const adminModel = new mongoose.Schema({
+
   passwordResetToken: {
     type: Number,
     default: "0",
@@ -19,6 +20,14 @@ const userModel = new mongoose.Schema({
     // required:[true, "Name field must not be empty"],
     // minLength:[2,"Name field must have atleast 2 characters"]
   },
+
+  role: {
+    type: String,
+    // trim:true,
+    // required:[true, "Name field must not be empty"],
+    // minLength:[2,"Name field must have atleast 2 characters"]
+  },
+
   password: String,
   email: {
     type: String,
@@ -35,14 +44,12 @@ const userModel = new mongoose.Schema({
     type: String,
     default: "default.avif",
   },
-  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "tasks" }],
-  updates: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "updates" },
-  ],
+  user: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+
 
 });
 
-userModel.plugin(plm);
-const user = mongoose.model("user", userModel);
+adminModel.plugin(plm);
+const admin = mongoose.model("admin", adminModel);
 
-module.exports = user;
+module.exports = admin;
