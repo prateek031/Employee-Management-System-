@@ -14,6 +14,12 @@ router.get('/', function(req, res, next) {
   res.render("admin/adminlogin");
 });
 
+router.post("/login", passport.authenticate('admin',{
+  failureRedirect:"/admin",
+  successRedirect:"/admin/users",
+}),function (req, res) {
+});
+
 // --------------------------register------------------------
 router.get('/register', function(req, res, next) {
   try {
@@ -34,6 +40,13 @@ router.post("/register", async function (req, res) {
         res.send(error.message);
   }
 });
+// ---------------------------------------------------------------
+
+router.get('/homepage', function(req, res, next) {
+  res.render("admin/homepage");
+});
+
+
 
 // -----------------------------------------------------------------
 router.get('/users', async (req, res) => {

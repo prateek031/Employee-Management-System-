@@ -88,16 +88,28 @@ button {
 button:hover {
   background: #85311a;
 }
-
-@media (max-width: 458px) {
+#message {
+  display: none;
+}
+@media only screen and (max-width: 500px) {
   body {
-    margin: 0 18px;
+    background: #000;
   }
 
-  form {
-    background: #f9faff;
-    border: none;
-    box-shadow: none;
-    padding: 20px 0;
-  }
+
+#message {
+  color: white;
+  display: block;
+}
+#mobile {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+#bgv {
+  display: none;
+}
+
+
 }
