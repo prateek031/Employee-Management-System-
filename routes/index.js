@@ -1,15 +1,16 @@
 var express = require("express");
 var router = express.Router();
+const mongoose = require('mongoose');
 const User = require("../models/userModel")
 const Tasks = require("../models/taskModel");
 const Updates = require("../models/updateModel")
-// -----------Passport----------------
+// ------------------------Passport------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 passport.use('local', new LocalStrategy(User.authenticate()));
-// ----------------------------------------------
+// ---------------------------------------------------------------
 
-// -------------------register------------------------
+// -----------------------------Register------------------------------
 router.get("/register", function (req, res) {
   res.render("register");
 });
@@ -80,7 +81,7 @@ router.get("/todays_updates",isLoggedIn,async function (req, res) {
   const updates = await Updates.find({ user: req.user._id });
   res.render("todayupdate", { updates: updates, user: req.user });
 });
-
+// -------------------------------------------------------------------
 router.get("/addupdate",isLoggedIn, function (req, res) {
   res.render("addupdate");
 });
@@ -97,8 +98,10 @@ router.post("/addupdate",isLoggedIn,async function(req,res,next){
       { $push: { updates: updates._id } }
     );
     res.redirect("/todays_updates?success=true");
+
+ 
   } catch (error) {
-    res.send("This is data"+error);
+    res.send('Error: ' + error);
   }
 })
 

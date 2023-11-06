@@ -51,12 +51,10 @@ router.get('/homepage', function(req, res, next) {
 // -----------------------------------------------------------------
 router.get('/users', async (req, res) => {
   try {
-      const allUsers = await User.find({},).exec();
-      var a = [...allUsers];
-      a.forEach(function(e){
-        console.log("tisss is resp"+e);
-      })
-      res.send(a)
+      const a = await User.find({},).exec();
+      var allUsers = [...a];
+ 
+      res.render("admin/homepage",{allUsers:allUsers})
   } catch (err) {
       console.error(err);
       res.status(500).send('Internal Server Error');
@@ -64,5 +62,22 @@ router.get('/users', async (req, res) => {
 });
 // --------------------------------------------------------------------
 
+// -----------------------------------------------------------------
+router.get('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate('updates');
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // res.render('userDetails', { user });
+    res.send(user)
+  } catch (error) {
+    res.status(500).send('Error fetching user details: ' + error);
+  }
+});
+// --------------------------------------------------------------------
 
 module.exports = router;

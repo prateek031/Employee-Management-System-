@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>this is home page</h1>
+    <% allUsers.forEach(function(user) { %>
+        <a href="/admin/users/<%= user._id %>"> 
+          <h2>
+          <%= user.username %>
+          </h2>
+        </a>
+
+
+
+      <% }) %>
 </body>
 </html>
