@@ -10,6 +10,30 @@
       padding: 1%;
       margin: 1% 0;
     }
+    .email-link {
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.email-link:hover {
+  background-color: lightblue; /* Change this to the color you prefer */
+}
+
+.email-link::after {
+  content: " - You can send mail by clicking on this";
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+.email-link:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+
     @media (max-width: 600px) {
       .card {
         width: 100%; 
@@ -21,7 +45,8 @@
   <h1>User Details</h1>
   <p>Username: <%= user.username %></p>
   <p>Name: <%= user.name %></p>
-  <p>Email: <%= user.email %></p>
+  
+  <p>Email: <a href="mailto:<%= user.email %>" class="email-link" ><%= user.email %></a></p>
 
   <h2>Filter Updates</h2>
   <select id="timeFilter">
