@@ -1,4 +1,5 @@
 var express = require('express');
+
 var router = express.Router();
 const Admin = require("../models/adminModel")
 const User = require("../models/userModel"); 
@@ -72,8 +73,8 @@ router.get('/users/:id', async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    // res.render('userDetails', { user });
-    res.send(user)
+    res.render('admin/userupdates', { user });
+    // res.send(user)
   } catch (error) {
     res.status(500).send('Error fetching user details: ' + error);
   }
