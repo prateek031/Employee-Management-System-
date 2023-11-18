@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Today's Tasks</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/tasks.css" />
   </head>
   <body>
@@ -15,12 +16,13 @@
 
         <div class="assigner">
           <div class="asleft">
+            <div id="circle">
+              <i class="ri-arrow-left-s-line"></i>
+            </div>
             <h2>Please give one SOD & EOD in a day </h2>
           </div>
           <div id="asspace"></div>
           <div class="asright">
-            <!-- <a href="/addtask">
-                    <button><h1>+</h1></button></a> -->
             <a href="/addupdate">
               <span></span>
               <span></span>
@@ -65,6 +67,11 @@
     </div>
   </body>
   <script>
+    var nav = document.querySelector("#circle")
+    nav.addEventListener("click",function(){
+      
+      window.open("/dashboard", "_self");
+    });
   const urlParams = new URLSearchParams(window.location.search);
   const success = urlParams.get('success');
   if (success) {

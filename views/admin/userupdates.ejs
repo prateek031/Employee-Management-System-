@@ -1,67 +1,136 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Details</title>
   <style>
-    .card {
-      font-family: gilroy;
-      border: 1px solid #1c1b1b;
-      border-radius: 5px;
-      padding: 1%;
-      margin: 1% 0;
+    body {
+      font-family: 'Gilroy', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      transition: background-color 0.3s ease;
     }
+  
+    header {
+      background-color: #1d1d1d;
+      color: white;
+      text-align: center;
+      padding: 1em;
+      transition: background-color 0.3s ease;
+    }
+  
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      transition: box-shadow 0.3s ease;
+    }
+  
+    .user-card {
+      background-color: #3498db;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .user-info {
+      margin: 0;
+    }
+  
+    .filter-card,
+    .update-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+  
     .email-link {
-  color: black;
-  padding: 5px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.email-link:hover {
-  background-color: lightblue; /* Change this to the color you prefer */
-}
-
-.email-link::after {
-  content: " - You can send mail by clicking on this";
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.3s linear;
-}
-
-.email-link:hover::after {
-  visibility: visible;
-  opacity: 1;
-}
-
-
+      color: #f7f7f7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+  
+    .email-link:hover {
+      color: #616bf7;
+    }
+  
+    select {
+      padding: 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+  
+    #filteredUpdates {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  
     @media (max-width: 600px) {
-      .card {
-        width: 100%; 
+      .container {
+        grid-template-columns: 1fr;
       }
+    }
+  
+    /* Add fade-in animation for the cards */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .filter-card,
+    .update-card {
+      animation: fadeIn 0.5s ease forwards;
     }
   </style>
 </head>
 <body>
-  <h1>User Details</h1>
-  <p>Username: <%= user.username %></p>
-  <p>Name: <%= user.name %></p>
-  
-  <p>Email: <a href="mailto:<%= user.email %>" class="email-link" ><%= user.email %></a></p>
+  <header>
+    <h1><%= user.name %> Updates</h1>
+  </header>
+  <div class="container">
+    <div class="user-card">
+      <h2>User Information</h2>
+      <p class="user-info">Username: <%= user.username %></p>
+      <p class="user-info">Name: <%= user.name %></p>
+      <p class="user-info">Email: <a href="mailto:<%= user.email %>" class="email-link"><%= user.email %></a></p>
+    </div>
 
-  <h2>Filter Updates</h2>
-  <select id="timeFilter">
-    <option value="all">All Updates</option>
-    <option value="today">Today's Updates</option>
-    <option value="thisWeek">This Week's Updates</option>
-    <option value="thisMonth">This Month's Updates</option>
-    <option value="thisYear">This Year's Updates</option>
-  </select>
+    <div class="filter-card">
+      <h2>Filter Updates</h2>
+      <select id="timeFilter">
+        <option value="all">All Updates</option>
+        <option value="today">Today's Updates</option>
+        <option value="thisWeek">This Week's Updates</option>
+        <option value="thisMonth">This Month's Updates</option>
+        <option value="thisYear">This Year's Updates</option>
+      </select>
+    </div>
+  </div>
 
-  <h2>Filtered Updates</h2>
-  <div id="filteredUpdates">
-    <% user.updates.reverse().forEach(function(update) { %>
-      <div class="card">
-        <p>Project: <%= update.title %></p> 
+  <div id="filteredUpdates" class="container">
+    <% user.updates.reverse().forEach(function(update, index) { %>
+      <div class="update-card">
+        <h2>Update <%= index + 1 %></h2>
+        <p>Project: <%= update.title %></p>
         <p>Project Description: <%= update.desc %></p>
         <p>Date: <%= new Date(update.createdAt).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
         <p>Time of update: <%= new Date(update.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
@@ -70,39 +139,39 @@
   </div>
 
   <script>
-      const userUpdates = <%- JSON.stringify(user.updates) %>;
+    const userUpdates = <%- JSON.stringify(user.updates) %>;
 
-const filterData = (timeOption) => {
-  const today = new Date();
-  switch (timeOption) {
-    case 'today':
-      return userUpdates.filter(item => new Date(item.createdAt).toDateString() === today.toDateString());
-    case 'thisWeek':
-      const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-      const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6));
-      return userUpdates.filter(item => {
-        const itemDate = new Date(item.createdAt);
-        return itemDate >= startOfWeek && itemDate <= endOfWeek;
-      });
-    case 'thisMonth':
-      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-      return userUpdates.filter(item => {
-        const itemDate = new Date(item.createdAt);
-        return itemDate >= startOfMonth && itemDate <= endOfMonth;
-      });
-    case 'thisYear':
-      const startOfYear = new Date(today.getFullYear(), 0, 1);
-      const endOfYear = new Date(today.getFullYear(), 11, 31);
-      return userUpdates.filter(item => {
-        const itemDate = new Date(item.createdAt);
-        return itemDate >= startOfYear && itemDate <= endOfYear;
-      });
-    case 'all':
-    default:
-      return userUpdates;
-  }
-};
+    const filterData = (timeOption) => {
+      const today = new Date();
+      switch (timeOption) {
+        case 'today':
+          return userUpdates.filter(item => new Date(item.createdAt).toDateString() === today.toDateString());
+        case 'thisWeek':
+          const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+          const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6));
+          return userUpdates.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfWeek && itemDate <= endOfWeek;
+          });
+        case 'thisMonth':
+          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+          const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+          return userUpdates.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfMonth && itemDate <= endOfMonth;
+          });
+        case 'thisYear':
+          const startOfYear = new Date(today.getFullYear(), 0, 1);
+          const endOfYear = new Date(today.getFullYear(), 11, 31);
+          return userUpdates.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfYear && itemDate <= endOfYear;
+          });
+        case 'all':
+        default:
+          return userUpdates;
+      }
+    };
 
     const timeFilter = document.getElementById('timeFilter');
     const filteredUpdates = document.getElementById('filteredUpdates');
@@ -111,10 +180,11 @@ const filterData = (timeOption) => {
       const selectedOption = event.target.value;
       const filteredData = filterData(selectedOption);
       filteredUpdates.innerHTML = '';
-      filteredData.reverse().forEach(update => {
+      filteredData.reverse().forEach((update, index) => {
         const div = document.createElement('div');
-        div.className = 'card';
+        div.className = 'update-card';
         div.innerHTML = `
+          <h2>Update ${index + 1}</h2>
           <p>Project: ${update.title}</p>
           <p>Project Description: ${update.desc}</p>
           <p>Date: ${new Date(update.createdAt).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>

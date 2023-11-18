@@ -41,3 +41,7 @@ series.slices.template.cornerRadius = 5;
 series.colors.step = 3;
 
 
+// Add JavaScript to redirect mobile and tablet users to a different page
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  window.location.href = "/mobile-page"; // Replace "/mobile-page" with the actual URL for mobile users
+}

@@ -69,12 +69,26 @@ router.get("/profile",isLoggedIn, function (req, res) {
   res.render("profile",{user: req.user});
 });
 
-router.get("/todays_task",isLoggedIn,function (req, res) {
-  res.render("task",{user: req.user});
+router.get("/todays_task",isLoggedIn,async function (req, res) {
+  try {
+    // Get the authenticated user's ID
+    const userId = req.user._id;
+
+    // Find all tasks for the authenticated user
+    const tasks = await Tasks.find({ user: userId });
+
+    res.render("task", { user: req.user, tasks });
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 router.get("/time_tracking",isLoggedIn, function (req, res) {
   res.render("time");
+});
+router.get("/mobile-page",isLoggedIn, function (req, res) {
+  res.render("mobilepage");
 });
 
 router.get("/todays_updates",isLoggedIn,async function (req, res) {

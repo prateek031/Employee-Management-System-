@@ -66,7 +66,21 @@ html {
     justify-content: center;
 
 }
+.asleft #circle {
+    height: 70%;
+    width: 8%;
+    border-radius: 20%;
+    border: 1px solid #0c7bd5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 7%;
 
+}
+.asleft #circle i{
+    color: whitesmoke;
+    font-size: 2rem;
+}
 .asleft h2 {
     color: white;
 }

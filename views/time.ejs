@@ -1,11 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Tracking</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #2c3e50;
+      }
+      
+      .stopwatch {
+        text-align: center;
+        background-color: #34495e;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        color: #ecf0f1;
+      }
+      
+      .time {
+        font-size: 3em;
+        margin-bottom: 20px;
+        transition: color 0.3s ease-in-out;
+      }
+      
+      .hours {
+        color: #e74c3c;
+      }
+      
+      .minutes {
+        color: #f39c12;
+      }
+      
+      .seconds {
+        color: #2ecc71;
+      }
+      
+      .buttons button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+      }
+      
+      .buttons button:hover {
+        background-color: #2980b9;
+      }
+      
+      .buttons button:active {
+        transform: scale(0.95);
+      }
+      
+      
+    
+</style>  
 </head>
+
 <body>
-    <h1>This is time page</h1>
+  <div class="stopwatch">
+    <div id="display">00:00:00</div>
+    <div class="buttons">
+      <button id="start" onclick="startStopwatch()">Start</button>
+      <button id="pause" onclick="pauseStopwatch()">Pause</button>
+      <button id="submit" onclick="submitTime()">Submit</button>
+    </div>
+  </div>
+  <script>
+    let timer;
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+
+function startStopwatch() {
+  timer = setInterval(updateStopwatch, 1000);
+  document.getElementById("start").disabled = true;
+}
+
+function pauseStopwatch() {
+  clearInterval(timer);
+  document.getElementById("start").disabled = false;
+}
+
+function submitTime() {
+  alert(`Time submitted: ${formatTime()}`);
+  resetStopwatch();
+}
+
+function updateStopwatch() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes === 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+  document.getElementById("display").innerText = formatTime();
+}
+
+function formatTime() {
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
+function resetStopwatch() {
+  clearInterval(timer);
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
+  document.getElementById("display").innerText = "00:00:00";
+  document.getElementById("start").disabled = false;
+}
+
+  </script>
 </body>
+
 </html>

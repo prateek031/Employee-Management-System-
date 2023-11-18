@@ -1,12 +1,23 @@
+<!-- views/task.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tasks</title>
+    <!-- Add your custom styles here -->
 </head>
 <body>
-    <h1>this is task page
-    </h1>
+    <h2>All Tasks for <%= user.username %></h2>
+    <% if (tasks && tasks.length > 0) { %>
+        <ul>
+            <% tasks.forEach(function(task) { %>
+                <li><%= task.title %> - <%= task.desc %></li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No tasks available.</p>
+    <% } %>
 </body>
 </html>
