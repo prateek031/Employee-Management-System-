@@ -39,7 +39,7 @@ router.post("/register", async function (req, res) {
       { username, name, role, email },
       password
     );
-    await res.render("admin/adminlogin");
+    await res.redirect("admin/adminlogin");
   } catch (error) {
     res.send(error.message);
   }
@@ -55,17 +55,12 @@ function isLoggedIn(req, res, next) {
 }
 // -----------------------------------------------------------------------
 
-
 // -----------------------------------------------------------------
 router.get("/users", isLoggedIn, async (req, res) => {
   try {
     const a = await User.find({}).exec();
     var allUsers = [...a];
-    console.log(req.user);
-    console.log("nfrjnr");
-
-
-    res.render("admin/homepage", { allUsers: allUsers,admin:req.user});
+    res.render("admin/homepage", { allUsers: allUsers, admin: req.user });
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -77,7 +72,7 @@ router.get("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect("/admin");
   });
 });
 // -----------------------------------------------------------------
@@ -110,25 +105,21 @@ router.get("/users/:id/add-task", isLoggedIn, async (req, res) => {
   }
 });
 
-
 router.post("/users/:id/add-task", isLoggedIn, async (req, res) => {
   try {
     const userId = req.params.id;
     const { title, desc } = req.body;
 
-    // Validate task data
     if (!title || !desc) {
       return res.status(400).send("Title and description are required");
     }
 
-    // Create a new task
     const task = new Task({
       title,
       desc,
       user: userId,
     });
 
-    // Save the task to the database
     await task.save();
 
     res.redirect("/admin/users/");
