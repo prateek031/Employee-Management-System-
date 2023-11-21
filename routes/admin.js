@@ -39,7 +39,7 @@ router.post("/register", async function (req, res) {
       { username, name, role, email },
       password
     );
-    await res.redirect("admin/adminlogin");
+    await res.render("admin/adminlogin");
   } catch (error) {
     res.send(error.message);
   }
@@ -121,10 +121,25 @@ router.post("/users/:id/add-task", isLoggedIn, async (req, res) => {
     });
 
     await task.save();
-
     res.redirect("/admin/users/");
   } catch (error) {
     res.status(500).send("Error adding task: " + error);
+  }
+});
+
+
+router.get("/users/:id/time-details", isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("time");
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    res.render("admin/timedets", { user });
+  } catch (error) {
+    res.status(500).send("Error fetching user time details: " + error);
   }
 });
 module.exports = router;

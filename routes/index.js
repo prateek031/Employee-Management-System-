@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require("../models/userModel")
 const Tasks = require("../models/taskModel");
 const Updates = require("../models/updateModel")
+const Time = require('../models/timeModel');
 // ------------------------Passport------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -71,10 +72,8 @@ router.get("/profile",isLoggedIn, function (req, res) {
 
 router.get("/todays_task",isLoggedIn,async function (req, res) {
   try {
-    // Get the authenticated user's ID
     const userId = req.user._id;
 
-    // Find all tasks for the authenticated user
     const tasks = await Tasks.find({ user: userId });
 
     res.render("task", { user: req.user, tasks });
@@ -82,11 +81,38 @@ router.get("/todays_task",isLoggedIn,async function (req, res) {
     console.error("Error fetching tasks:", error);
     res.status(500).send("Internal Server Error");
   }
+
 });
 
 router.get("/time_tracking",isLoggedIn, function (req, res) {
   res.render("time");
 });
+
+router.post('/api/submitTime', async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const newTimeEntry = new Time({
+      date: req.body.date,
+      time: req.body.time,
+      user: userId,
+    });
+
+    await newTimeEntry.save();
+
+    const user = await User.findById(userId);
+    user.time.push(newTimeEntry._id); 
+    await user.save();
+
+    res.json({ success: true, message: 'Time submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting time:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+
+
 router.get("/mobile-page",isLoggedIn, function (req, res) {
   res.render("mobilepage");
 });

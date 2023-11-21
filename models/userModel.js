@@ -37,8 +37,9 @@ const userModel = new mongoose.Schema({
   },
   tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "tasks" }],
   updates: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "updates" },
+    { type: mongoose.Schema.Types.ObjectId, ref: "updates" }
   ],
+
   time: [{ type: mongoose.Schema.Types.ObjectId, ref: "time" }],
 
 

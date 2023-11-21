@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Time Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 2%;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .time-entry {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 2%;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .time-entry:hover {
+            background-color: #3498db;
+            transform: scale(1.02);
+        }
+
+        .time-entry div {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .time-entry div:first-child {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Time Details of <%= user.username %></h1>
+
+    <% 
+        const dateSumMap = {};
+
+        user.time.forEach(function(timeEntry) { 
+            const entryDate = formatDate(timeEntry.date);
+            const entryTime = timeEntry.time;
+
+            if (dateSumMap.hasOwnProperty(entryDate)) {
+                const currentSumSeconds = timeToSeconds(dateSumMap[entryDate]);
+                const entryTimeSeconds = timeToSeconds(entryTime);
+                const totalSeconds = currentSumSeconds + entryTimeSeconds;
+
+                dateSumMap[entryDate] = secondsToTime(totalSeconds);
+            } else {
+                dateSumMap[entryDate] = entryTime;
+            }
+        });
+
+        function formatDate(dateString) {
+            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-GB', options);
+        }
+
+        function timeToSeconds(timeString) {
+            const [hours, minutes, seconds] = timeString.split(':').map(Number);
+            return hours * 3600 + minutes * 60 + seconds;
+        }
+
+        function secondsToTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            return `${formatTwoDigits(hours)}:${formatTwoDigits(minutes)}:${formatTwoDigits(remainingSeconds)}`;
+        }
+
+        function formatTwoDigits(number) {
+            return number < 10 ? `0${number}` : number;
+        }
+
+        Object.keys(dateSumMap).forEach(function(date) {
+            %>
+            <div class="time-entry">
+                <div>Date: <%= date %></div>
+                <div>Total Time: <%= dateSumMap[date] %></div>
+            </div>
+            <%
+        });
+    %>
+</body>
+</html>

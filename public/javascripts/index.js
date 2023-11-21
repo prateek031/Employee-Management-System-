@@ -19,12 +19,14 @@ chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
 chart.data = [
   {
-    User: "Absent",
-    days: 58,
+    User: "Present",
+
+    days: 25,
   },
   {
-    User: "Present",
-    days: 72,
+    User: "Absent",
+
+    days: 5,
   },
 ];
 
@@ -45,3 +47,13 @@ series.colors.step = 3;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
   window.location.href = "/mobile-page"; // Replace "/mobile-page" with the actual URL for mobile users
 }
+
+
+const currentDateElement = document.getElementById('currentDate');
+
+// Get the current date and format it
+const today = new Date();
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const formattedDate = today.toLocaleDateString('en-US', options);
+
+currentDateElement.innerText = formattedDate;
