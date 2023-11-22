@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Tracking</title>
-  <link rel="stylesheet" href="/stylesheets/timetracking.css">
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #2c3e50;
+      }
+      
+      .stopwatch {
+        text-align: center;
+        background-color: #34495e;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        color: #ecf0f1;
+      }
+      
+      .time {
+        font-size: 3em;
+        margin-bottom: 20px;
+        transition: color 0.3s ease-in-out;
+      }
+      
+      .hours {
+        color: #e74c3c;
+      }
+      
+      .minutes {
+        color: #f39c12;
+      }
+      
+      .seconds {
+        color: #2ecc71;
+      }
+      
+      .buttons button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+      }
+      
+      .buttons button:hover {
+        background-color: #2980b9;
+      }
+      
+      .buttons button:active {
+        transform: scale(0.95);
+      }
+      
+      
+    
+</style>  
 </head>
 
 <body>
@@ -14,24 +73,32 @@
     <div class="buttons">
       <button id="start" onclick="startStopwatch()">Start</button>
       <button id="pause" onclick="pauseStopwatch()">Pause</button>
+      <button id="submit" onclick="resetStopwatch()">Reset Time</button>
       <button id="submit" onclick="submitTime()">Submit</button>
+
     </div>
   </div>
-
+ 
   <script>
     let currentTime;
     let timer;
-    let startTime;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
     let pausedTime = document.getElementById('pause');
 
     // Check if there is a previously saved time
     let storedTime = localStorage.getItem('currentTime');
     if (storedTime) {
-      document.getElementById("display").innerText = storedTime;
+      let timeParts = storedTime.split(':').map(part => parseInt(part, 10));
+      // Ensure valid numeric values, default to 0 if parsing fails
+      if (timeParts.length === 3 && !timeParts.includes(NaN)) {
+        [hours, minutes, seconds] = timeParts;
+        document.getElementById("display").innerText = storedTime;
+      }
     }
 
     function startStopwatch() {
-      startTime = Date.now() - (hours * 3600000 + minutes * 60000 + seconds * 1000);
       timer = setInterval(updateStopwatch, 1000);
       document.getElementById("start").disabled = true;
     }
@@ -65,19 +132,27 @@
         .then(data => {
           alert(`Your working Time is succesfully submitted :${currentTime}`);
           localStorage.removeItem('currentTime');
+          localStorage.clear();
           resetStopwatch();
           console.log('Server response:', data);
         })
         .catch(error => {
           console.error('Error submitting time:', error);
         });
+        localStorage.clear();
+
     }
 
     function updateStopwatch() {
-      const elapsedMilliseconds = Date.now() - startTime;
-      seconds = Math.floor((elapsedMilliseconds / 1000) % 60);
-      minutes = Math.floor((elapsedMilliseconds / 60000) % 60);
-      hours = Math.floor(elapsedMilliseconds / 3600000);
+      seconds++;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
       document.getElementById("display").innerText = formatTime();
     }
 
@@ -104,5 +179,4 @@
     }
   </script>
 </body>
-
 </html>

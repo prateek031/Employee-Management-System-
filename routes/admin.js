@@ -39,7 +39,7 @@ router.post("/register", async function (req, res) {
       { username, name, role, email },
       password
     );
-    await res.render("admin/adminlogin");
+    await res.redirect("/admin");
   } catch (error) {
     res.send(error.message);
   }
