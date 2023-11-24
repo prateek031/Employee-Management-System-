@@ -89,7 +89,7 @@
 
     // Check if there is a previously saved time
     let storedTime = localStorage.getItem('currentTime');
-    if (storedTime) {
+    if (typeof storedTime !== 'undefined' && storedTime !== null) {
       let timeParts = storedTime.split(':').map(part => parseInt(part, 10));
       // Ensure valid numeric values, default to 0 if parsing fails
       if (timeParts.length === 3 && !timeParts.includes(NaN)) {
