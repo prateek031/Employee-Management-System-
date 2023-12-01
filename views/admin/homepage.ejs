@@ -161,9 +161,15 @@
             <form action="/admin/users/<%= user._id %>/add-task" method="GET">
                 <button class="user-button" type="submit"><span>Add Task</span></button>
             </form>
+
             <form action="/admin/users/<%= user._id %>/time-details" method="GET">
                 <button class="user-button" type="submit"><span>Show Time Details</span></button>
             </form>
+
+            <form action="/admin/users/<%= user._id %>/delete" method="GET">
+                <button class="user-button" type="submit"><span>Delete Data</span></button>
+            </form>
+        </form>
         </div>
     <% }) %>
 </body>

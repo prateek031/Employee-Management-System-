@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<h1><%=user.name%></h1>
+<form action="/admin/users/<%= user._id %>/delete/delete-updates" method="GET">
+    <button class="user-button" type="submit"><span>Delete Updates</span></button>
+</form>
+
+<form action="/admin/users/<%= user._id %>/delete/delete-time" method="GET">
+    <button class="user-button" type="submit"><span>Delete Time Sheet</span></button>
+</form>
+
+<form action="/admin/users/<%= user._id %>/delete/delete-task" method="GET">
+    <button class="user-button" type="submit"><span>Delete Tasks</span></button>
+</form>
+
+</body>
+</html>

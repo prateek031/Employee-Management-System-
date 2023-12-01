@@ -2,12 +2,16 @@ var express = require("express");
 var router = express.Router();
 const Admin = require("../models/adminModel");
 const User = require("../models/userModel");
+const Updates = require("../models/updateModel");
 const Task = require("../models/taskModel");
-// -----------Passport----------------
+const Time = require("../models/timeModel");
+
+// --------------------------------------------------Passport-----------------------------------------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 passport.use("admin", new LocalStrategy(Admin.authenticate()));
-// ----------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
+
 
 /* GET admin listing. */
 router.get("/", function (req, res, next) {
@@ -20,10 +24,10 @@ router.post(
     failureRedirect: "/admin",
     successRedirect: "/admin/users",
   }),
-  function (req, res) {}
+  function (req, res) { }
 );
 
-// --------------------------register------------------------
+// -----------------------------------------------register----------------------------------------------------------------
 router.get("/register", function (req, res, next) {
   try {
     res.render("admin/adminregister");
@@ -44,8 +48,9 @@ router.post("/register", async function (req, res) {
     res.send(error.message);
   }
 });
-// ---------------------------------------------------------------
-// --------------------------islogged_in------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
+
+// ---------------------------------------------------islogged_in--------------------------------------------------------------
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -53,9 +58,11 @@ function isLoggedIn(req, res, next) {
     res.redirect("/admin");
   }
 }
-// -----------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
 
-// -----------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
 router.get("/users", isLoggedIn, async (req, res) => {
   try {
     const a = await User.find({}).exec();
@@ -66,7 +73,8 @@ router.get("/users", isLoggedIn, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
+
 router.get("/logout", function (req, res, next) {
   req.logOut(function (err) {
     if (err) {
@@ -75,7 +83,8 @@ router.get("/logout", function (req, res, next) {
     res.redirect("/admin");
   });
 });
-// -----------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
+
 router.get("/users/:id", isLoggedIn, async (req, res) => {
   try {
     const userId = req.params.id;
@@ -89,7 +98,9 @@ router.get("/users/:id", isLoggedIn, async (req, res) => {
     res.status(500).send("Error fetching user details: " + error);
   }
 });
-// --------------------------------------------------------------------
+
+
+
 router.get("/users/:id/add-task", isLoggedIn, async (req, res) => {
   try {
     const userId = req.params.id;
@@ -104,6 +115,10 @@ router.get("/users/:id/add-task", isLoggedIn, async (req, res) => {
     res.status(500).send("Error fetching user details: " + error);
   }
 });
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
+
 
 router.post("/users/:id/add-task", isLoggedIn, async (req, res) => {
   try {
@@ -121,11 +136,23 @@ router.post("/users/:id/add-task", isLoggedIn, async (req, res) => {
     });
 
     await task.save();
+   
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { tasks: task._id } },
+      { new: true }
+    );
+    
     res.redirect("/admin/users/");
-  } catch (error) {
+  } 
+  catch (error) {
     res.status(500).send("Error adding task: " + error);
   }
 });
+
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
 
 
 router.get("/users/:id/time-details", isLoggedIn, async (req, res) => {
@@ -142,4 +169,108 @@ router.get("/users/:id/time-details", isLoggedIn, async (req, res) => {
     res.status(500).send("Error fetching user time details: " + error);
   }
 });
+
+
+
+
+
+
+
+
+router.get('/users/:id/delete',async function (req, res, next) {
+  try {
+    const user = await User.findById(req.params.id);
+    res.render("admin/delete",{user:user});
+  } catch (error) {
+    console.log("thiss is " + error);
+  }
+});
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
+
+router.get('/users/:id/delete/delete-updates', async (req, res) => {
+  const userId = req.params.id;
+  const check= await User.findById(userId);
+
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { updates: [] } },
+      { new: true }
+    );
+    await Updates.deleteMany({ user: userId });
+    console.log(updatedUser)
+
+    if (check.updates.length==0) {
+      res.render("admin/processing", { user: userId, status: 'All records are already deleted from database' })
+    } else {
+      res.render("admin/processing", { user: userId, status: 'All the record deleted from database' })
+
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
+
+router.get('/users/:id/delete/delete-time', async (req, res) => {
+  const userId = req.params.id;
+  const check= await User.findById(userId);
+
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { time: [] } },
+      { new: true }
+    );
+    await Time.deleteMany({ user: userId });
+    console.log(updatedUser)
+
+    if (check.time.length==0) {
+      res.render("admin/processing", { user: userId, status: 'All recorded time is already deleted from database' })
+    } else {
+      res.render("admin/processing", { user: userId, status: 'All the time record is deleted from database' })
+
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// ----------------------------------------------------------------------------------------------------------------------------
+
+
+router.get('/users/:id/delete/delete-task', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const check= await User.findById(userId);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { tasks: [] } },
+      { new: true }
+    );
+   await Task.deleteMany({ user: userId });
+    if (check.tasks.length==0) {
+      res.render("admin/processing",{ user: userId, status: 'There is no task allocated to this user or data is already deleted' })
+    } else {
+      res.render("admin/processing", { user: userId, status: 'All task is deleted from database' })
+
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+// ----------------------------------------------------------------------------------------------------------------------------
+
+
+
 module.exports = router;

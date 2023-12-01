@@ -5,6 +5,8 @@ const User = require("../models/userModel")
 const Tasks = require("../models/taskModel");
 const Updates = require("../models/updateModel")
 const Time = require('../models/timeModel');
+const crypto =require("crypto")
+const mailer=require("../nodemailer")
 // ------------------------Passport------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
