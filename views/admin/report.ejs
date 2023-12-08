@@ -1,0 +1,207 @@
+<!-- admin/views/report.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Report</title>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 2%;
+        }
+        .main{
+            border: 1px solid black;
+            margin: 5px;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 2%;
+            margin-bottom: 2%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        h1, h2, p, ul {
+            margin-bottom: 2%;
+        }
+
+        ul {
+           
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 1%;
+            margin-left: 2%;
+        }
+
+        button {
+            padding: 1em;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+            
+            }
+
+            .card {
+                padding: 5%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            ul {
+                padding-left: 2%;
+            }
+
+            li {
+                margin-bottom: 2%;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="main">
+
+   
+        <h1><%=user.name%> Report</h1>
+
+   
+        <h2>Updates</h2>
+        <% if (updates.length > 0) { %>
+            <ul>
+                <% updates.forEach(update => { %>
+                    <div class="card">
+                        <li><%= update.title %> - <%= update.desc %> </li>
+                    </div>
+                    
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No updates for today.</p>
+        <% } %>
+    
+        <h2>Time Details</h2>
+        <% if (timeDetails.length > 0) { %>
+            <ul>
+                <% let currentDate = null; %>
+                <% let totalMilliseconds = 0; %>
+                <% timeDetails.forEach(timeDetail => { %>
+                    <% if (currentDate !== timeDetail.date) { %>
+                        <% if (currentDate !== null) { %>
+                            <li>Total Time for <%= currentDate %>: <%= formatTime(totalMilliseconds) %></li>
+                        <% } %>
+                        <% currentDate = timeDetail.date; %>
+                        <% totalMilliseconds = 0; %>
+                    <% } %>
+                    <% totalMilliseconds += timeToMilliseconds(timeDetail.time); %>
+                <% }); %>
+                <div class="card">
+                    <li>Total Time for <%= currentDate %>: <%= formatTime(totalMilliseconds) %></li>
+                </div>
+            </ul>
+        <% } else { %>
+            <p>No time details for today.</p>
+        <% } %>
+        
+        <%
+        function timeToMilliseconds(time) {
+            const [hours, minutes, seconds] = time.split(':').map(Number);
+            return (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
+        }
+        
+        function formatTime(totalMilliseconds) {
+            const totalSeconds = Math.floor(totalMilliseconds / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        %>
+        
+    
+        <h2>Tasks</h2>
+        <% if (tasks.length > 0) { %>
+            <ul>
+                <% tasks.forEach(task => { %>
+                    <div class="card">
+                        <li><%= task.title %> - <%= task.desc %> </li>
+                    </div>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No tasks for the user.</p>
+        <% } %>
+        <button onclick="generatePDF()" data-html2canvas-ignore="true">Download as PDF</button>
+    </div>
+   
+    <script>
+        const userName = '<%= user.name %>';
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1; 
+        const formattedDay = (day < 10) ? `0${day}` : day;
+        const formattedMonth = (month < 10) ? `0${month}` : month;
+        const formattedDate = `${formattedDay}/${formattedMonth}`;
+        const filename = `${userName}${formattedDate}_report.pdf`;
+        function generatePDF() {
+        const content = document.documentElement;
+        const pdfWindow = window.open('', '_blank');
+        pdfWindow.document.write('<h1>Loading...</h1>');
+
+        html2pdf(content, {
+           
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait',compress: true },
+                pagebreak: { mode:[ 'avoid-all' ,'css', 'legacy']},
+                    page: { width: 100, height: 35 },
+                }
+            ).save();
+            console.log('Content:', content);
+
+            setTimeout(() => {
+                pdfWindow.close();
+            }, 3000);
+        }
+        </script>
+</body>
+</html>

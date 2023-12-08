@@ -146,4 +146,5 @@ router.post("/addupdate",isLoggedIn,async function(req,res,next){
   }
 })
 
+
 module.exports = router;
