@@ -8,37 +8,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Task</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            height: 100%;
+            width: 100%;
         }
 
-        header {
+        #main {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #head {
             background-color: #333;
             color: #fff;
-            padding: 20px;
             text-align: center;
+            padding: 2%;
+        }
+
+        #page {
+            height: 80vh;
+            display: flex;
+            justify-content: center;
         }
 
         main {
             display: flex;
             justify-content: center;
-            align-items: center;
             height: 80vh;
         }
 
         .dashboard-container {
+            margin-top: 2%;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            padding: 1%;
             width: 80%;
             max-width: 800px;
+            overflow-x: scroll;
         }
 
-    
+        .dashboard-container::-webkit-scrollbar {
+            display: none;
+        }
 
         .task-card {
             background-color: #f9f9f9;
@@ -46,6 +66,9 @@
             border-radius: 4px;
             margin-bottom: 10px;
             padding: 15px;
+            display:flex ;
+            justify-content: space-between;
+            align-items: center;
         }
 
         h3 {
@@ -60,6 +83,9 @@
 
         .no-tasks {
             color: #777;
+        }
+        h6{
+            font-weight: 400;
         }
 
         .welcome-message {
@@ -80,30 +106,47 @@
 </head>
 
 <body>
-    <header>
-        <p class="welcome-message">Welcome, <%= user.username %>!</p>
-    </header>
+    <div id="main">
+        <div id="head">
+            <h6 class="welcome-message">Welcome, <%= user.username %>!</h6>
+        </div>
 
-    <main>
-        <div class="dashboard-container">
-            <h2>Tasks for Today</h2>
+        <div id="page">
+            <div class="dashboard-container">
+                <h2>Tasks for Today</h2>
 
-            <div class="tasks-for-today">
-                <% if (tasks && tasks.length > 0) { %>
-                    <% tasks.forEach(function(task) { %>
-                        <div class="task-card">
-                            <h3><%= task.title %></h3>
-                            <p><%= task.desc %></p>
-                            <!-- Display date in dd mm yy format -->
-                            <p class="task-date"><%= new Date(task.createdAt).toLocaleDateString('en-GB') %></p>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <p class="no-tasks">No tasks available for today.</p>
-                <% } %>
+                <div class="tasks-for-today">
+                    <% if (tasks && tasks.length> 0) { %>
+                        <% tasks.forEach(function(task) { %>
+                            <div class="task-card">
+                                <div id="left">
+                                    <h3>
+                                        <%= task.title %>
+                                    </h3>
+                                    <p>
+                                        <%= task.desc %>
+                                    </p>
+                                    <p class="task-date">
+                                        <%= new Date(task.createdAt).toLocaleDateString('en-GB') %>
+                                    </p>
+                                </div>
+                                <div id="right">
+                                    <form action="/todays_task/<%=task.id%>/done" method="get">
+                                        <button type="submit"><%=task.id%></button>
+                                    </form>
+                                </div>
+                              
+                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <p class="no-tasks">No tasks available for today.</p>
+                                    <% } %>
+                </div>
             </div>
         </div>
-    </main>
+
+    </div>
+
 </body>
 
 </html>
