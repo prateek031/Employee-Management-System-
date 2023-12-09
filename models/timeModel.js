@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const timeModel = new mongoose.Schema(
     {
-        date:  String,
+        date: String,
         time: String,
-        user:{type: mongoose.Schema.Types.ObjectId, ref:"user"},
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     },
     {
-        timestamps:true,
+        timestamps: true,
     }
 )
 
-module.exports = mongoose.model("time",timeModel);
+module.exports = mongoose.model("time", timeModel);

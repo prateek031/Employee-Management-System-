@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="stylesheets/login.css">
 </head>
+
 <body>
     <div id="mobile">
         <p id="message">Please use this on a desktop.</p>
-      </div>
-      <div id="bgv">
-       
-            <div id="main">
-                <h2>LOGIN</h2>
-    
-                <form action="/login" method="post">
+    </div>
+    <div id="bgv">
+
+        <div id="main">
+            <h2>LOGIN</h2>
+
+            <form action="/login" method="post">
+                <div class="row">
                     <div class="row">
-                        <div class="row">
-                            <label for="username">User Name</label>
-                            <input type="text" name="username" autocomplete="off" placeholder="Type your user name here" required>
-                          </div>
-                      <div class="row">
+                        <label for="username">User Name</label>
+                        <input type="text" name="username" autocomplete="off" placeholder="Type your user name here"
+                            required>
+                    </div>
+                    <div class="row">
                         <label for="password">Password</label>
                         <input type="password" name="password" placeholder="Enter your password here..">
-                      </div>
-                      <button type="submit">Login</button>
-                      <h4>New in company ? Click here to <a href="/register">Register.</a></h4>
-                </form>
-            </div>
+                    </div>
+                    <button type="submit">Login</button>
+                    <h4>New in company ? Click here to <a href="/register">Register.</a></h4>
+            </form>
         </div>
+    </div>
 
 </body>
 

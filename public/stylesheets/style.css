@@ -35,7 +35,6 @@ body {
 .nav {
   width: 100vw;
   height: 8vh;
-  /* background-color: black; */
   display: flex;
   flex-wrap: wrap;
 }
@@ -49,7 +48,6 @@ body {
 .rightnav {
   width: 45vw;
   height: 8vh;
-  /* background-color: rgb(15, 179, 143); */
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -124,10 +122,12 @@ body {
 .lusdets h4 {
   color: #76caac;
 }
+
 .lusdets h4 a {
   text-decoration: none;
   color: inherit;
 }
+
 .lusdets span {
   color: #ffffff;
 }
@@ -135,7 +135,6 @@ body {
 .musdets {
   height: 100%;
   width: 33%;
-  /* background-color: rgb(0, 69, 129); */
 }
 
 .rusdets {
@@ -150,7 +149,6 @@ body {
   height: 75%;
   width: 20%;
   display: flex;
-  /* border: 2px solid  #6e6e6e; */
   border: 2px solid #76caac;
 
   align-items: center;
@@ -158,9 +156,11 @@ body {
   margin-right: 1svw;
   border-radius: 20px;
 }
+
 .logoff h4 {
   color: #ffffff;
 }
+
 .logoff i {
   font-size: 1em;
   font-weight: 600;
@@ -176,8 +176,8 @@ body {
 .lsec {
   width: 50vw;
   height: 80vh;
-  /* background-color: yellow;   */
 }
+
 #mhead {
   height: 6vh;
   width: 100%;
@@ -190,20 +190,22 @@ body {
 .rsec {
   width: 50vw;
   height: 80vh;
-  /* background-color: rgb(99, 99, 17); */
 }
 
 #chartdiv {
   width: 100%;
   height: 80%;
 }
+
 .attendets {
   display: flex;
   justify-content: space-around;
 }
+
 .attendets h3 {
   color: #ffffff;
 }
+
 .present {
   color: #ffffff;
   height: 4vh;
@@ -214,6 +216,7 @@ body {
 #message {
   display: none;
 }
+
 #mobile {
   top: 50%;
   left: 50%;
@@ -230,6 +233,7 @@ body {
     color: white;
     display: block;
   }
+
   #main {
     display: none;
   }
@@ -244,10 +248,12 @@ body {
     color: white;
     display: block;
   }
+
   #main {
     display: none;
   }
 }
+
 @media only screen and (max-width: 768px) {
   body {
     background-color: #000;

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Update</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-   <link rel="stylesheet" href="/stylesheets/updates.css">
+    <link rel="stylesheet" href="/stylesheets/updates.css">
 </head>
 
 <body>
@@ -28,35 +28,42 @@
         </div>
     </div>
 
-    <p>Welcome to <strong><%= user.name %></strong> Profile</p>
+    <p>Welcome to <strong>
+            <%= user.name %>
+        </strong> Profile</p>
 
     <div class="tslist">
-        <% const today = new Date();
-        const currentDate = today.toISOString().slice(0, 10);
-        const filteredUpdates = updates.filter(update => {
+        <% const today=new Date(); const currentDate=today.toISOString().slice(0, 10); const
+            filteredUpdates=updates.filter(update=> {
             const updateDate = new Date(update.createdAt).toISOString().slice(0, 10);
             return updateDate === currentDate;
-        });
-        filteredUpdates.sort((a, b) => b.createdAt - a.createdAt);
-        filteredUpdates.forEach(function (update) { %>
-        <div id="task">
-            <h2><%= update.title %></h2>
-            <p><%= update.desc %></p>
-            <p>Date: <%= update.createdAt.toLocaleDateString('en-GB') %></p>
-        </div>
-        <% }) %>
+            });
+            filteredUpdates.sort((a, b) => b.createdAt - a.createdAt);
+            filteredUpdates.forEach(function (update) { %>
+            <div id="task">
+                <h2>
+                    <%= update.title %>
+                </h2>
+                <p>
+                    <%= update.desc %>
+                </p>
+                <p>Date: <%= update.createdAt.toLocaleDateString('en-GB') %>
+                </p>
+            </div>
+            <% }) %>
     </div>
-    
+
 </body>
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const success = urlParams.get('success');
-  if (success) {
-      alert('Your update is recorded successfully!');
-  }
-  var nav = document.querySelector("#circle");
-  nav.addEventListener("click", function () {
-    window.open("/dashboard", "_self");
-});
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    if (success) {
+        alert('Your update is recorded successfully!');
+    }
+    var nav = document.querySelector("#circle");
+    nav.addEventListener("click", function () {
+        window.open("/dashboard", "_self");
+    });
 </script>
+
 </html>

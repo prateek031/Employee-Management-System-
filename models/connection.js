@@ -1,10 +1,10 @@
-const mongoose = require("mongoose"); 
+const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const { MongoClient } = require("mongodb").MongoClient;
 
 
-const uri =process.env.URL;
-  
+const uri = process.env.URL;
+
 mongoose
   .connect(uri, {
     useNewUrlParser: true,

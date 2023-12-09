@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,41 +140,44 @@
                 flex: 0 0 calc(100% - 20px);
             }
         }
-     
-
-        
     </style>
 </head>
+
 <body>
     <nav>
-        <p>admin : <%= admin.name %></p>
+        <p>admin : <%= admin.name %>
+        </p>
         <a href="logout" class="logout-button">Logout</a>
     </nav>
     <% allUsers.forEach(function(user) { %>
         <div class="user-card">
-            <h2>Username: <%= user.username %></h2>
-            <h2>Name: <%= user.name %></h2>
+            <h2>Username: <%= user.username %>
+            </h2>
+            <h2>Name: <%= user.name %>
+            </h2>
 
             <form action="/admin/users/<%= user._id %>" method="GET">
                 <button class="user-button" type="submit"><span>Show Updates</span></button>
-            </form>
-
-            <form action="/admin/users/<%= user._id %>/add-task" method="GET">
-                <button class="user-button" type="submit"><span>Add Task</span></button>
             </form>
 
             <form action="/admin/users/<%= user._id %>/time-details" method="GET">
                 <button class="user-button" type="submit"><span>Show Time Details</span></button>
             </form>
 
+            <form action="/admin/users/<%= user._id %>/add-task" method="GET">
+                <button class="user-button" type="submit"><span>Add Task</span></button>
+            </form>
+
             <form action="/admin/users/<%= user._id %>/delete" method="GET">
                 <button class="user-button" type="submit"><span>Delete Data</span></button>
             </form>
+
             <form action="/admin/users/<%= user._id %>/get-report" method="GET">
-                <button class="user-button" type="submit"><span>Delete Data</span></button>
+                <button class="user-button" type="submit"><span>Todays Report</span></button>
             </form>
-        </form>
+
         </div>
-    <% }) %>
+        <% }) %>
 </body>
+
 </html>

@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-html,body{
-    height: 100%;
-    width: 100%;
-    background: #1d1e22;
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background: #1d1e22;
 
 }
 
@@ -19,8 +22,6 @@ html,body{
   font-family: Montserrat;
 }
 
-/* text box
----------------------------------------------------------*/
 .field {
   width: calc(100% - 20px);
   max-width: 80vw;
@@ -63,7 +64,6 @@ html,body{
   width: 100%;
 }
 
-/* Reset default style */
 [type="text"] {
   margin: 0;
   padding: 0;
@@ -83,50 +83,50 @@ html,body{
   font-weight: 400;
   font-family: inherit;
 }
+
 .textarea-box {
-    margin-top: 3%;
-    width: 100%;
-  }
-  
-  /* Reset default style */
-  textarea {
-    margin: 0;
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: 0;
-    outline: none;
-    appearance: none;
-  }
-  
-  textarea {
-    width: inherit;
-    min-height: 200px;
-    border-radius: 5px;
-    background: #ddd;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: 400;
-    font-family: inherit;
-    resize: vertical;
-  }
-  
-  button {
-    margin-top: 3%;
-    margin-bottom: 3%;
-    width: 100%;
-    padding: 1em;
-    font-size: 1rem;
-    background: #ee8013;
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    margin-top: 1.5vh;
-    transition: background 0.5s ease-in;
-  }
-  
-  button:hover {
-    background: #fc9732;
-    
-  }
+  margin-top: 3%;
+  width: 100%;
+}
+
+textarea {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  appearance: none;
+}
+
+textarea {
+  width: inherit;
+  min-height: 200px;
+  border-radius: 5px;
+  background: #ddd;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: inherit;
+  resize: vertical;
+}
+
+button {
+  margin-top: 3%;
+  margin-bottom: 3%;
+  width: 100%;
+  padding: 1em;
+  font-size: 1rem;
+  background: #ee8013;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  margin-top: 1.5vh;
+  transition: background 0.5s ease-in;
+}
+
+button:hover {
+  background: #fc9732;
+
+}

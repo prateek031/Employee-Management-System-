@@ -1,4 +1,4 @@
-const userUpdates = <%- JSON.stringify(user.updates) %>;
+const userUpdates = <% - JSON.stringify(user.updates) %>;
 
 const filterData = (timeOption) => {
   const today = new Date();
@@ -32,22 +32,22 @@ const filterData = (timeOption) => {
   }
 };
 
-    const timeFilter = document.getElementById('timeFilter');
-    const filteredUpdates = document.getElementById('filteredUpdates');
+const timeFilter = document.getElementById('timeFilter');
+const filteredUpdates = document.getElementById('filteredUpdates');
 
-    timeFilter.addEventListener('change', (event) => {
-      const selectedOption = event.target.value;
-      const filteredData = filterData(selectedOption);
-      filteredUpdates.innerHTML = '';
-      filteredData.reverse().forEach(update => {
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.innerHTML = `
+timeFilter.addEventListener('change', (event) => {
+  const selectedOption = event.target.value;
+  const filteredData = filterData(selectedOption);
+  filteredUpdates.innerHTML = '';
+  filteredData.reverse().forEach(update => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
           <p>Project: ${update.title}</p>
           <p>Project Description: ${update.desc}</p>
           <p>Date: ${new Date(update.createdAt).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
           <p>Time of update: ${new Date(update.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
         `;
-        filteredUpdates.appendChild(div);
-      });
-    });
+    filteredUpdates.appendChild(div);
+  });
+});

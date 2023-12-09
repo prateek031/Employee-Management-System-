@@ -12,7 +12,6 @@ const nodemailer = require('nodemailer');
 // --------------------------------------------------Passport-----------------------------------------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const user = require("../models/userModel");
 const { log } = require("console");
 passport.use("admin", new LocalStrategy(Admin.authenticate()));
 // ----------------------------------------------------------------------------------------------------------------------------
@@ -33,7 +32,7 @@ router.get("/register", function (req, res, next) {
   try {
     res.render("admin/adminregister");
   } catch (error) {
-    console.log("thiss is " + error);
+    console.log("This error is from /regieter route and the  " + error);
   }
 });
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -238,7 +237,7 @@ router.get("/users/:id/get-report", isLoggedIn, async (req, res) => {
       user: userId,
       createdAt: { $gte: currentDate, $lt: `${currentDate}T23:59:59.999Z` },
     });
-    res.render("admin/report", { updates, timeDetails, tasks,userId,user });
+    res.render("admin/report", { updates, timeDetails, tasks, userId, user });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error generating report: " + error);
@@ -247,11 +246,11 @@ router.get("/users/:id/get-report", isLoggedIn, async (req, res) => {
 //--------------------------------------------------------------------------------------------------------------------------------
 
 router.get("/users/:id/getpdf", isLoggedIn, async (req, res) => {
- try {
-  
- } catch (error) {
-  console.log(error);
- }
+  try {
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 //--------------------------------------------------------------------------------------------------------------------------------
 

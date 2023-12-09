@@ -20,12 +20,10 @@ chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 chart.data = [
   {
     User: "Present",
-
     days: 25,
   },
   {
     User: "Absent",
-
     days: 5,
   },
 ];
@@ -45,7 +43,7 @@ series.colors.step = 3;
 
 // Add JavaScript to redirect mobile and tablet users to a different page
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-  window.location.href = "/mobile-page"; // Replace "/mobile-page" with the actual URL for mobile users
+  window.location.href = "/mobile-page"; 
 }
 
 
