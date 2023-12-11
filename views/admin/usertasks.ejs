@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Details</title>
+  <style>
+    body {
+      font-family: 'Gilroy', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      transition: background-color 0.3s ease;
+    }
+  
+    header {
+      background-color: #1d1d1d;
+      color: white;
+      text-align: center;
+      padding: 1em;
+      transition: background-color 0.3s ease;
+    }
+    header h1{
+        text-transform: uppercase;
+    }
+  
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      transition: box-shadow 0.3s ease;
+    }
+  
+    .user-card {
+      background-color: #3498db;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .user-info {
+      margin: 0;
+    }
+  
+    .filter-card,
+    .task-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+  
+    .email-link {
+      color: #f7f7f7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+  
+    .email-link:hover {
+      color: #616bf7;
+    }
+  
+    select {
+      padding: 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+  
+    #filteredTasks {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    @media (max-width: 600px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    /* Add fade-in animation for the cards */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .filter-card,
+    .task-card {
+      animation: fadeIn 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><%= user.name %> Task's</h1>
+  </header>
+  <div class="container">
+    <div class="user-card">
+      <h2>User Information</h2>
+      <p class="user-info">Username: <%= user.username %></p>
+      <p class="user-info">Name: <%= user.name %></p>
+      <p class="user-info">Email: <a href="mailto:<%= user.email %>" class="email-link"><%= user.email %></a></p>
+    </div>
+
+    <div class="filter-card">
+      <h2>Filter Task's</h2>
+      <select id="timeFilter">
+        <option value="all">All Task's</option>
+        <option value="today">Today's Task's</option>
+        <option value="thisWeek">This Week's Task's</option>
+        <option value="thisMonth">This Month's Task's</option>
+        <option value="thisYear">This Year's Task's</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="filteredTasks" class="container">
+    <% user.tasks.reverse().forEach(function(task, index) { %>
+      <div class="task-card">
+        <h2>Task <%= index + 1 %></h2>
+        <p>Project: <%= task.title %></p>
+        <p>Project Description: <%= task.desc %></p>
+        <p>Status: <%= task.status ? 'Done' : 'Not Done' %></p>
+
+        <p>Date: <%= new Date(task.createdAt).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
+        <p>Time of Task: <%= new Date(task.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
+      </div>
+    <% }); %>
+  </div>
+
+  <script>
+    const userTasks = <%- JSON.stringify(user.tasks) %>;
+
+    const filterData = (timeOption) => {
+      const today = new Date();
+      switch (timeOption) {
+        case 'today':
+          return userTasks.filter(item => new Date(item.createdAt).toDateString() === today.toDateString());
+        case 'thisWeek':
+          const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+          const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6));
+          return userTasks.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfWeek && itemDate <= endOfWeek;
+          });
+        case 'thisMonth':
+          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+          const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+          return userTasks.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfMonth && itemDate <= endOfMonth;
+          });
+        case 'thisYear':
+          const startOfYear = new Date(today.getFullYear(), 0, 1);
+          const endOfYear = new Date(today.getFullYear(), 11, 31);
+          return userTasks.filter(item => {
+            const itemDate = new Date(item.createdAt);
+            return itemDate >= startOfYear && itemDate <= endOfYear;
+          });
+        case 'all':
+        default:
+          return userTasks;
+      }
+    };
+
+    const timeFilter = document.getElementById('timeFilter');
+    const filteredTasks = document.getElementById('filteredTasks');
+
+    timeFilter.addEventListener('change', (event) => {
+      const selectedOption = event.target.value;
+      const filteredData = filterData(selectedOption);
+      filteredTasks.innerHTML = '';
+      filteredData.reverse().forEach((task, index) => {
+        const div = document.createElement('div');
+        div.className = 'task-card';
+        div.innerHTML = `
+          <h2>task ${index + 1}</h2>
+          <p>Project: ${task.title}</p>
+          <p>Project Description: ${task.desc}</p>
+          <p>Date: ${new Date(task.createdAt).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+          <p>Time of task: ${new Date(task.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+        `;
+        filteredTasks.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>

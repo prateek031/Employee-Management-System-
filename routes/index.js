@@ -93,7 +93,7 @@ router.get("/todays_task/:id/done", isLoggedIn, async function (req, res) {
   try {
     const userId = req.user._id;
     const taskId = req.params.id;
-    await User.findByIdAndUpdate(userId, { $pull: { tasks: taskId } });
+    await Tasks.findByIdAndUpdate(taskId, { status: true });
     console.log(userId);
     await res.redirect("/todays_task?status=done");
   } catch (error) {

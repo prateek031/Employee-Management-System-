@@ -2,167 +2,55 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Today's Task</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <link rel="stylesheet" href="stylesheets/task.css" />
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            height: 100%;
-            width: 100%;
-        }
+  </head>
 
-        #main {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        #head {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 2%;
-        }
-
-        #page {
-            height: 80vh;
-            display: flex;
-            justify-content: center;
-        }
-
-        main {
-            display: flex;
-            justify-content: center;
-            height: 80vh;
-        }
-
-        .dashboard-container {
-            margin-top: 2%;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 1%;
-            width: 80%;
-            max-width: 800px;
-            overflow-x: scroll;
-        }
-
-        .dashboard-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .task-card {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        h3 {
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #777;
-            margin-bottom: 15px;
-        }
-
-        .no-tasks {
-            color: #777;
-        }
-
-        h6 {
-            font-weight: 400;
-        }
-
-        .welcome-message {
-            font-size: 2.2em;
-            color: rgb(255, 255, 255);
-        }
-
-        .tasks-for-today {
-            margin-top: 30px;
-        }
-
-        /* Added style for the date */
-        .task-date {
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .done-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .done-button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <div id="main">
-        <div id="head">
-            <h6 class="welcome-message">Welcome, <%= user.username %>!</h6>
-        </div>
+      <div id="head">
+        <h6 class="welcome-message">Welcome, <%= user.username %>!</h6>
+      </div>
 
-        <div id="page">
-            <div class="dashboard-container">
-                <h2>Tasks for Today</h2>
+      <div id="page">
+        <div class="dashboard-container">
+          <h2>Tasks for Today</h2>
 
-                <div class="tasks-for-today">
-                    <% if (tasks && tasks.length> 0) { %>
-                        <% tasks.forEach(function(task) { %>
-                            <div class="task-card">
-                                <div id="left">
-                                    <h3>
-                                        <%= task.title %>
-                                    </h3>
-                                    <p>
-                                        <%= task.desc %>
-                                    </p>
-                                    <p class="task-date">
-                                        <%= new Date(task.createdAt).toLocaleDateString('en-GB') %>
-                                    </p>
-                                </div>
-                                <div id="right">
-                                    <form action="/todays_task/<%=task.id%>/done" method="get"
-                                        onsubmit="return confirm('Are you sure you want to mark this task as done?');">
-                                        <button type="submit" class="done-button">Mark as Done</button>
-                                    </form>
-                                </div>
-
-                            </div>
-                            <% }); %>
-                                <% } else { %>
-                                    <p class="no-tasks">No tasks available for today.</p>
-                                    <% } %>
-                </div>
+          <div class="tasks-for-today">
+            <% if (tasks && tasks.length > 0) { %> <%
+            tasks.forEach(function(task) { %> <% if (!task.status) { %>
+            <div class="task-card">
+              <div id="left">
+                <h3><%= task.title %></h3>
+                <p><%= task.desc %></p>
+                <p class="task-date">
+                  <%= new Date(task.createdAt).toLocaleDateString('en-GB') %>
+                </p>
+              </div>
+              <div id="right">
+                <form
+                  action="/todays_task/<%= task.id %>/done"
+                  method="get"
+                  onsubmit="return confirm('Are you sure you want to mark this task as done?');"
+                >
+                  <button type="submit" class="done-button">
+                    Mark as Done
+                  </button>
+                </form>
+              </div>
             </div>
+            <% } %> <% }); %> <% if (tasks.every(task => task.status)) { %>
+            <p class="no-tasks">All tasks are done for today.</p>
+            <% } %> <% } else { %>
+            <p class="no-tasks">No tasks available for today.</p>
+            <% } %>
+          </div>
         </div>
-
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>

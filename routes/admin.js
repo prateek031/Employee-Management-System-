@@ -94,6 +94,22 @@ router.get("/users/:id", isLoggedIn, async (req, res) => {
     res.status(500).send("Error fetching user details: " + error);
   }
 });
+
+
+
+router.get("/users/:id/usertasks", isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("tasks");
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    console.log(user)
+    res.render("admin/usertasks", { user });
+  } catch (error) {
+    res.status(500).send("Error fetching user details: " + error);
+  }
+});
 // ---------------------------------------------------------------------------------------------------------------------------
 router.get("/users/:id/add-task", isLoggedIn, async (req, res) => {
   try {
@@ -118,6 +134,7 @@ router.post("/users/:id/add-task", isLoggedIn, async (req, res) => {
     const task = new Task({
       title,
       desc,
+      status: false,
       user: userId,
     });
     await task.save();

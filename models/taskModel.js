@@ -14,6 +14,10 @@ const taskModel = new mongoose.Schema(
       required: [true, "Description field must not be empty"],
       minLength: [10, "Description field must have atleast 10 characters"]
     },
+    status:{
+      type:Boolean,
+      default:false,
+    },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   {
