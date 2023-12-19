@@ -79,6 +79,15 @@ router.get("/todays_task", isLoggedIn, async function (req, res) {
   try {
     const userId = req.user._id;
     const userWithTasks = await User.findById(userId).populate('tasks');
+    if (!userWithTasks || !userWithTasks.tasks) {
+      const updatedUser = await User.findById(userId).populate('tasks');
+      if (updatedUser) {
+        userWithTasks.tasks = updatedUser.tasks;
+      } else {
+        throw new Error("User not found");
+      }
+    }
+
     const tasks = userWithTasks.tasks;
     const status = req.query.status || '';
     res.render("task", { user: req.user, tasks, status });
